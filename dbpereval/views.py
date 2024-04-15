@@ -15,6 +15,8 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.renderers import DocumentationRenderer
+
 # from drf_yasg.generators import OpenAPISchemaGenerator
 #
 # schema_generator = OpenAPISchemaGenerator(
