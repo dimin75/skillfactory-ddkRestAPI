@@ -8,6 +8,68 @@ from rest_framework.views import APIView
 from .serializers import *
 from .models import *
 
+# for yaml-swagger-schema implementation:
+from django.http import HttpResponse
+import yaml
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+# from drf_yasg.generators import OpenAPISchemaGenerator
+#
+# schema_generator = OpenAPISchemaGenerator(
+#     title="Документация по функциям RestAPI",
+#     description="Описание API-функций",
+#     version="v1",
+#     url="/api/v1/",
+#     patterns=None,
+# )
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Документация по функциям RestAPI",
+      default_version='v1',
+      description="Описание API-функций",
+      terms_of_service="https://www.example.com/policies/terms/",
+      contact=openapi.Contact(email="contact@example.com"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+# @swagger_auto_schema(method='get', operation_description="Сгенерировать YAML-файл")
+@api_view(['GET'])
+def generate_yaml(request):
+    schema_view = get_schema_view(
+        openapi.Info(
+            title="Документация по функциям RestAPI",
+            default_version='v1',
+            description="Описание API-функций",
+            terms_of_service="https://www.example.com/policies/terms/",
+            contact=openapi.Contact(email="contact@example.com"),
+            license=openapi.License(name="BSD License"),
+        ),
+        public=True,
+        permission_classes=(permissions.AllowAny,),
+    )
+
+    # generator = schema_view.with_ui('swagger')
+    # schema = generator.get_schema(request=request)
+    # yaml_data = schema_view.with_ui('swagger').get_schema_yaml()
+    generator = schema_view.with_ui('swagger')
+    schema = generator.get_schema(request=request)
+    yaml_data = schema.yaml()
+    # schema = schema_view.get_schema(request=request)
+    # yaml_data = yaml.dump(schema, default_flow_style=False)
+    # yaml_data = schema_view.get_schema_yaml()
+    yaml_data = get_schema_view().get_schema_yaml(request=request)
+
+    # Сохраняем YAML-файл на диск
+    with open('swagger.yaml', 'w') as f:
+        f.write(yaml_data)
+
+    return HttpResponse(yaml_data, content_type='text/yaml')
+
 
 class ContactForm(serializers.Serializer):
     # simple serializer for emails
