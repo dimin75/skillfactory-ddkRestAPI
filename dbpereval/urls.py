@@ -15,4 +15,5 @@ urlpatterns = [
    path('submitData/<int:pk>/status', PerevalStatusView.as_view()),
    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
    path('generate-yaml/', schema_view.without_ui(cache_timeout=0), name='generate_yaml'),
+   path('generate-markdown/', schema_view.without_ui(cache_timeout=0), name='generate-markdown'),
 ]

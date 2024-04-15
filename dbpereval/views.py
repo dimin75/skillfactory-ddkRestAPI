@@ -37,7 +37,32 @@ schema_view = get_schema_view(
    public=True,
    permission_classes=(permissions.AllowAny,),
 )
-# @swagger_auto_schema(method='get', operation_description="Сгенерировать YAML-файл")
+
+def generate_markdown(request):
+    schema_view = get_schema_view(
+        openapi.Info(
+            title="Документация по функциям RestAPI",
+            default_version='v1',
+            description="Описание API-функций",
+            terms_of_service="https://www.example.com/policies/terms/",
+            contact=openapi.Contact(email="contact@example.com"),
+            license=openapi.License(name="BSD License"),
+        ),
+        public=True,
+        permission_classes=(permissions.AllowAny,),
+        renderer_classes=[DocumentationRenderer],
+    )
+
+    generator = schema_view.with_ui('swagger')
+    schema = generator.get_schema(request=request)
+    markdown_data = schema.to_markdown()
+
+    # Сохраняем Markdown-файл на диск
+    with open('swagger.md', 'w') as f:
+        f.write(markdown_data)
+
+    return HttpResponse(markdown_data, content_type='text/markdown')
+
 @api_view(['GET'])
 def generate_yaml(request):
     schema_view = get_schema_view(
@@ -53,16 +78,13 @@ def generate_yaml(request):
         permission_classes=(permissions.AllowAny,),
     )
 
-    # generator = schema_view.with_ui('swagger')
-    # schema = generator.get_schema(request=request)
-    # yaml_data = schema_view.with_ui('swagger').get_schema_yaml()
     generator = schema_view.with_ui('swagger')
     schema = generator.get_schema(request=request)
     yaml_data = schema.yaml()
     # schema = schema_view.get_schema(request=request)
     # yaml_data = yaml.dump(schema, default_flow_style=False)
     # yaml_data = schema_view.get_schema_yaml()
-    yaml_data = get_schema_view().get_schema_yaml(request=request)
+    # yaml_data = get_schema_view().get_schema_yaml(request=request)
 
     # Сохраняем YAML-файл на диск
     with open('swagger.yaml', 'w') as f:
