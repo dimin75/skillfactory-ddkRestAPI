@@ -121,6 +121,7 @@ def generate_yaml(request):
     generator = schema_view.with_ui('swagger')
     schema = generator.get_schema(request=request)
     yaml_data = schema.yaml()
+    markdown_data = yaml_to_markdown(yaml_data)
     # schema = schema_view.get_schema(request=request)
     # yaml_data = yaml.dump(schema, default_flow_style=False)
     # yaml_data = schema_view.get_schema_yaml()
@@ -128,9 +129,11 @@ def generate_yaml(request):
 
     # Сохраняем YAML-файл на диск
     with open('swagger.yaml', 'w') as f:
-        f.write(yaml_data)
+        # f.write(yaml_data)
+        f.write(markdown_data)
 
-    return HttpResponse(yaml_data, content_type='text/yaml')
+    # return HttpResponse(yaml_data, content_type='text/yaml')
+    return HttpResponse(markdown_data, content_type='text/markdown')
 
 
 class ContactForm(serializers.Serializer):
