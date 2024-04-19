@@ -5,7 +5,7 @@ def yaml_to_markdown(yaml_str):
     markdown = f"# {data['info']['title']}\n\n"
     markdown += f"## {data['info']['description']}\n\n"
     markdown += f"* Версия: {data['info']['version']}\n"
-    markdown += f"* Условия использования: [{data['info']['termsOfService']}]({data['info']['termsOfService']})\n"
+    # markdown += f"* Условия использования: [{data['info']['termsOfService']}]({data['info']['termsOfService']})\n"
     markdown += f"* Контакт: {data['info']['contact']['email']}\n"
     markdown += f"* Лицензия: {data['info']['license']['name']}\n\n"
     markdown += "### Базовая информация\n\n"
@@ -37,11 +37,11 @@ def yaml_to_markdown(yaml_str):
     return markdown
 
 # Пример использования:
-with open("doc.yaml", "r") as f:
+with open("docdownloaded.yaml", "r", encoding="utf-8") as f:
     yaml_str = f.read()
 
 markdown_output = yaml_to_markdown(yaml_str)
 
 # Запись результата в файл
-with open("README_3.md", "w") as f:
+with open("README.md", "w") as f:
     f.write(markdown_output)

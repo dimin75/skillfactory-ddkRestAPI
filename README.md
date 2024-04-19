@@ -1,105 +1,89 @@
-swagger: '2.0'
-info:
-  title: Р”РѕРєСѓРјРµРЅС‚Р°С†РёСЏ РїРѕ С„СѓРЅРєС†РёСЏРј RestAPI
-  description: РћРїРёСЃР°РЅРёРµ API-С„СѓРЅРєС†РёР№
-  termsOfService: https://www.example.com/policies/terms/
-  contact:
-    email: contact@example.com
-  license:
-    name: BSD License
-  version: v1
-host: 127.0.0.1:8000
-schemes:
-- http
-basePath: /
-consumes:
-- application/json
-produces:
-- application/json
-securityDefinitions:
-  Basic:
-    type: basic
-security:
-- Basic: []
-paths:
-  /submitData/:
-    get:
-      operationId: submitData_list
-      description: |-
-        РљР»Р°СЃСЃ РґР»СЏ РїСЂРѕСЃРјРѕС‚СЂР° Рё РґРѕР±Р°РІР»РµРЅРёСЏ РЅРѕРІС‹С… Р·Р°РїРёСЃРµР№
-        Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕ СЃСЃС‹Р»РєРµ http://.../submitData/
-      parameters: []
-      responses:
-        '200':
-          description: ''
-      tags:
-      - submitData
-    post:
-      operationId: submitData_create
-      description: |-
-        РљР»Р°СЃСЃ РґР»СЏ РїСЂРѕСЃРјРѕС‚СЂР° Рё РґРѕР±Р°РІР»РµРЅРёСЏ РЅРѕРІС‹С… Р·Р°РїРёСЃРµР№
-        Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕ СЃСЃС‹Р»РєРµ http://.../submitData/
-      parameters: []
-      responses:
-        '201':
-          description: ''
-      tags:
-      - submitData
-    parameters: []
-  /submitData/{id}:
-    get:
-      operationId: submitData_read
-      description: |-
-        РљР»Р°СЃСЃ РґР»СЏ РїСЂРѕСЃРјРѕС‚СЂР° Рё СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ РєРѕРЅРєСЂРµС‚РЅРѕР№ Р·Р°РїРёСЃРё. РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РєРѕРјР°РЅРґС‹ GET Рё PUT
-        Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕ СЃСЃС‹Р»РєРµ http://.../submitData/<int:pk>/
-      parameters: []
-      responses:
-        '200':
-          description: ''
-      tags:
-      - submitData
-    put:
-      operationId: submitData_update
-      description: |-
-        РљР»Р°СЃСЃ РґР»СЏ РїСЂРѕСЃРјРѕС‚СЂР° Рё СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ РєРѕРЅРєСЂРµС‚РЅРѕР№ Р·Р°РїРёСЃРё. РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РєРѕРјР°РЅРґС‹ GET Рё PUT
-        Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕ СЃСЃС‹Р»РєРµ http://.../submitData/<int:pk>/
-      parameters: []
-      responses:
-        '200':
-          description: ''
-      tags:
-      - submitData
-    parameters:
-    - name: id
-      in: path
-      required: true
-      type: string
-  /submitData/{id}/status:
-    get:
-      operationId: submitData_status_list
-      description: |-
-        РќР°СЃР»РµРґРЅРёРє РєР»Р°СЃСЃР° PerevalRecordView. РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ GET-Р·Р°РїСЂРѕСЃ СЃС‚Р°С‚СѓСЃР° Р·Р°РїРёСЃРё
-        Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕ СЃСЃС‹Р»РєРµ http://.../submitData/<int:pk>/status
-      parameters: []
-      responses:
-        '200':
-          description: ''
-      tags:
-      - submitData
-    put:
-      operationId: submitData_status_update
-      description: |-
-        РќР°СЃР»РµРґРЅРёРє РєР»Р°СЃСЃР° PerevalRecordView. РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ GET-Р·Р°РїСЂРѕСЃ СЃС‚Р°С‚СѓСЃР° Р·Р°РїРёСЃРё
-        Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕ СЃСЃС‹Р»РєРµ http://.../submitData/<int:pk>/status
-      parameters: []
-      responses:
-        '200':
-          description: ''
-      tags:
-      - submitData
-    parameters:
-    - name: id
-      in: path
-      required: true
-      type: string
-definitions: {}
+# Документация по функциям RestAPI
+
+## Описание API-функций.
+ Возможные варианты скачивания документации в yaml-формате:
+<a href='/swagger.yaml'> Скачать swagger.yaml</a> 
+<a href='/generate_yaml/'> Сгенерировать и скачать в формате  YAML</a> 
+
+
+* Версия: v1
+* Контакт: dimatest24@yandex.ru
+* Лицензия: BSD License
+
+### Базовая информация
+
+* Хост: 127.0.0.1:8000
+* Протоколы: http
+* Базовый путь: /
+
+### Форматы данных
+
+* Входные данные: application/json
+* Выходные данные: application/json
+
+### Безопасность
+
+* Описание: Basic
+
+## Маршруты
+
+### /submitData/
+
+#### GET /submitData/
+
+* Описание: Класс для просмотра и добавления новых записей
+Вызывается по ссылке http://.../submitData/
+* Параметры:
+* Ответ:
+  - 200: 
+
+#### POST /submitData/
+
+* Описание: Класс для просмотра и добавления новых записей
+Вызывается по ссылке http://.../submitData/
+* Параметры:
+* Ответ:
+  - 201: 
+
+#### PARAMETERS /submitData/
+
+### /submitData/{id}
+
+#### GET /submitData/{id}
+
+* Описание: Класс для просмотра и редактирования конкретной записи. Обрабатывает команды GET и PUT
+Вызывается по ссылке http://.../submitData/<int:pk>/
+* Параметры:
+* Ответ:
+  - 200: 
+
+#### PUT /submitData/{id}
+
+* Описание: Класс для просмотра и редактирования конкретной записи. Обрабатывает команды GET и PUT
+Вызывается по ссылке http://.../submitData/<int:pk>/
+* Параметры:
+* Ответ:
+  - 200: 
+
+#### PARAMETERS /submitData/{id}
+
+### /submitData/{id}/status
+
+#### GET /submitData/{id}/status
+
+* Описание: Наследник класса PerevalRecordView. Обрабатывает GET-запрос статуса записи
+Вызывается по ссылке http://.../submitData/<int:pk>/status
+* Параметры:
+* Ответ:
+  - 200: 
+
+#### PUT /submitData/{id}/status
+
+* Описание: Наследник класса PerevalRecordView. Обрабатывает GET-запрос статуса записи
+Вызывается по ссылке http://.../submitData/<int:pk>/status
+* Параметры:
+* Ответ:
+  - 200: 
+
+#### PARAMETERS /submitData/{id}/status
+
