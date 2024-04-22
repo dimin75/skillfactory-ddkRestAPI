@@ -28,7 +28,8 @@ SECRET_KEY = 'django-insecure-jj6!3c32lu&g+inx$(cnraj@n!+b5+pjvow%qru_^t18p3k930
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost',
-  '127.0.0.1','testserver']
+  '127.0.0.1','testserver',
+  'rc1d-70faxy50p1gfw46z.mdb.yandexcloud.net']
 
 
 # Application definition
@@ -83,10 +84,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv('DATABASE_NAME', 'db_pereval'),
-        'USER': os.getenv('FSTR_DB_LOGIN', 'postgres'),
-        'PASSWORD': os.getenv('FSTR_DB_PASS', 'admin24'),
-        'HOST': os.getenv('FSTR_DB_HOST', 'localhost'),
-        'PORT': int(os.getenv('FSTR_DB_PORT', '5432')),
+        'USER': os.getenv('FSTR_DB_LOGIN', 'dimauser'),
+        'PASSWORD': os.getenv('FSTR_DB_PASS', 'admin24admin24'),
+        'HOST': os.getenv('FSTR_DB_HOST', 'rc1d-70faxy50p1gfw46z.mdb.yandexcloud.net'),
+        'PORT': int(os.getenv('FSTR_DB_PORT', '6432')),
     }
 }
 
