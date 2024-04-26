@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import drf_yasg
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,9 +27,10 @@ SECRET_KEY = 'django-insecure-jj6!3c32lu&g+inx$(cnraj@n!+b5+pjvow%qru_^t18p3k930
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost',
-  '127.0.0.1']
-
+#ALLOWED_HOSTS = ['0.0.0.0','localhost',
+#  '127.0.0.1','testserver','dkap4.poi.dvo.ru',
+#  'rc1d-70faxy50p1gfw46z.mdb.yandexcloud.net']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
     'dbpereval'
 ]
 
@@ -81,10 +84,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv('DATABASE_NAME', 'db_pereval'),
-        'USER': os.getenv('FSTR_DB_LOGIN', 'postgres'),
-        'PASSWORD': os.getenv('FSTR_DB_PASS', 'admin24'),
-        'HOST': os.getenv('FSTR_DB_HOST', 'localhost'),
-        'PORT': int(os.getenv('FSTR_DB_PORT', '5432')),
+        'USER': os.getenv('FSTR_DB_LOGIN', 'dimauser'),
+        'PASSWORD': os.getenv('FSTR_DB_PASS', 'admin24admin24'),
+        'HOST': os.getenv('FSTR_DB_HOST', 'rc1d-70faxy50p1gfw46z.mdb.yandexcloud.net'),
+        'PORT': int(os.getenv('FSTR_DB_PORT', '6432')),
     }
 }
 

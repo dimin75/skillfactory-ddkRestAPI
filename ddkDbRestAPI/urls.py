@@ -18,11 +18,19 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+
+
 
 urlpatterns = [
    path('admin/', admin.site.urls),
    path('', include('dbpereval.urls')),
-   path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
 ]
 
 if settings.DEBUG:

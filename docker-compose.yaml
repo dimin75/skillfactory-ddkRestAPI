@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    network_mode: host
+#    environment:
+#      - DJANGO_SETTINGS_MODULE=project.settings.local
+
+  db:
+    image: postgres:12
+#    volumes:
+#      - db_data:/var/lib/postgresql/data
+#    environment:
+#      POSTGRES_DB: db_pereval
+#      POSTGRES_USER: dimauser
+#      POSTGRES_PASSWORD: admin24admin24
+#      POSTGRES_HOST: rc1d-70faxy50p1gfw46z.mdb.yandexcloud.net
+#      POSTGRES_PORT: 6432
+
+volumes:
+  db_data:

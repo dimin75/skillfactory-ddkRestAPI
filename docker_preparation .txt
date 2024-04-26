@@ -1,0 +1,126 @@
+Создание и запуск Docker-obraza на виртуальной машине yandex.cloud:
+
+0. Установка окружения дла DOCKER'a:
+
+ yc container registry create --name dimacont4docker
+done (1s)
+id: crpok28t1ae940lvchs9
+folder_id: b1g50cvp8531de2lh1st
+name: dimacont4docker
+status: ACTIVE
+created_at: "2024-04-22T06:20:09.898Z"
+
+
+1. Создание сервисного аккаунта:
+ yc iam service-account create --name dimarestapi-acc
+done (1s)
+Результат:
+id: ajedc019r67n0f43gp0b
+folder_id: b1g50cvp8531de2lh1st
+created_at: "2024-04-22T05:17:45.503708630Z"
+name: dimarestapi-acc
+
+2. Cписок доступных образов с помощью yc cli:
+
+ yc compute image list --folder-id standard-images > all_images_ya_cloud.txt
+
+Берем:
+|          ID          |                            NAME                            |                     FAMILY                      |          PRODUCT IDS           | STATUS |
+| fd808e721rc1vt7jkd0o | ubuntu-20-04-lts-v20230626                                 | ubuntu-2004-lts                                 | f2e8r6k9f9dsnn65dcf8           | READY  |
+
+
+3.  список доступных подсетей:
+
++----------------------+-----------------------+----------------------+----------------+---------------+-----------------+
+|          ID          |         NAME          |      NETWORK ID      | ROUTE TABLE ID |     ZONE      |      RANGE      |
++----------------------+-----------------------+----------------------+----------------+---------------+-----------------+
+| b0clf8bq4aferfio32ug | default-ru-central1-c | enpe6qdk14l7okp1iu10 |                | ru-central1-c | [10.130.0.0/24] |
+| e2lurg1fcjak3on44m3j | default-ru-central1-b | enpe6qdk14l7okp1iu10 |                | ru-central1-b | [10.129.0.0/24] |
+| e9bjq4rqpoon0c2msf6s | default-ru-central1-a | enpe6qdk14l7okp1iu10 |                | ru-central1-a | [10.128.0.0/24] |
+| fl8m9r4autfrhbkg2p7f | default-ru-central1-d | enpe6qdk14l7okp1iu10 |                | ru-central1-d | [10.131.0.0/24] |+
++----------------------+-----------------------+----------------------+----------------+---------------+-----------------+
+
+4. создать виртуальную машину:
+
+yc compute instance create \
+  --name first-instance \
+  --zone ru-central1-a \
+  --network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 \
+  --create-boot-disk image-folder-id=standard-images,image-family=centos-7 \
+  --ssh-key ~/.ssh/id_ed25519.pub
+  --service-account-name service-acc
+
+5. Получить список Docker-образов в реестре
+
+yc container image list
+
+6. 
+
+https://betterstack.com/community/guides/scaling-python/dockerize-django/
+https://medium.com/django-unleashed/dockerizing-a-django-application-with-postgresql-using-docker-and-docker-compose-332fc62aff5b
+
+Привязка доменного имени к ВМ с веб-сервером
+
+https://yandex.cloud/ru/docs/dns/tutorials/bind-domain-vm
+
+yc vpc network create webserver-network
+id: enpmahvpiv0ltmghk7fk
+folder_id: b1g50cvp8531de2lh1st
+created_at: "2024-04-24T13:24:26Z"
+name: webserver-network
+default_security_group_id: enpo7j9v5gm8u4qt1l40
+
+yc vpc subnet create webserver-subnet-ru-central1-b \
+  --zone ru-central1-b \
+  --network-name webserver-network \
+  --range 192.168.1.0/24
+
+
+id: e2lnehp9kk56pic3rma4
+folder_id: b1g50cvp8531de2lh1st
+created_at: "2024-04-24T13:34:45Z"
+name: webserver-subnet-ru-central1-b
+network_id: enpmahvpiv0ltmghk7fk
+zone_id: ru-central1-b
+v4_cidr_blocks:
+  - 192.168.1.0/24
+
+yc vpc security-group create \
+  --name webserver-sg \
+  --rule "description=http,direction=ingress,port=80,protocol=tcp,v4-cidrs=[0.0.0.0/0]" \
+  --rule "description=https,direction=ingress,port=443,protocol=tcp,v4-cidrs=[0.0.0.0/0]" \
+  --rule "description=ssh,direction=ingress,port=22,protocol=tcp,v4-cidrs=[0.0.0.0/0]" \
+  --rule "description=any,direction=egress,port=any,protocol=any,v4-cidrs=[0.0.0.0/0]" \
+  --network-name webserver-network
+
+  direction: INGRESS
+    ports:
+      from_port: "443"
+      to_port: "443"
+    protocol_name: TCP
+    protocol_number: "6"
+    cidr_blocks:
+      v4_cidr_blocks:
+        - 0.0.0.0/0
+  - id: enpr0iltehfah13sqas2
+    description: ssh
+    direction: INGRESS
+    ports:
+      from_port: "22"
+      to_port: "22"
+    protocol_name: TCP
+    protocol_number: "6"
+    cidr_blocks:
+      v4_cidr_blocks:
+        - 0.0.0.0/0
+  - id: enpsvhapg2ar90io878j
+    description: any
+    direction: EGRESS
+    protocol_name: ANY
+    protocol_number: "-1"
+    cidr_blocks:
+      v4_cidr_blocks:
+        - 0.0.0.0/0
+
+
+

@@ -1,10 +1,41 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status, permissions, serializers
+from rest_framework.views import APIView
+
 from .serializers import *
 from .models import *
 
+# for yaml-swagger-schema implementation:
+from django.http import HttpResponse
+# import yaml
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+# from rest_framework.decorators import api_view
+from rest_framework.response import Response
+# from rest_framework.renderers import DocumentationRenderer
+from rest_framework import permissions
+# from drf_yasg.renderers import SwaggerYAMLRenderer
+# from yaml import dump
 
+
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Документация по функциям RestAPI",
+      default_version='v1',
+      description="Описание API-функций.\n Возможные варианты скачивания документации в yaml-формате:\n" +
+                  "<a href='/swagger.yaml'> Скачать swagger.yaml</a> \n" +
+                  "<a href='/generate_yaml/'> Сгенерировать и скачать в формате  YAML</a> \n",
+      # terms_of_service="https://www.example.com/policies/terms/",
+      contact=openapi.Contact(email="dimatest24@yandex.ru"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
 class PerevalRecordView(APIView):
     """
     Класс для просмотра и редактирования конкретной записи. Обрабатывает команды GET и PUT
