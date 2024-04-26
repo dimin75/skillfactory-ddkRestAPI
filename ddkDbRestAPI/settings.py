@@ -27,10 +27,10 @@ SECRET_KEY = 'django-insecure-jj6!3c32lu&g+inx$(cnraj@n!+b5+pjvow%qru_^t18p3k930
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost',
-  '127.0.0.1','testserver',
-  'rc1d-70faxy50p1gfw46z.mdb.yandexcloud.net']
-
+#ALLOWED_HOSTS = ['0.0.0.0','localhost',
+#  '127.0.0.1','testserver','dkap4.poi.dvo.ru',
+#  'rc1d-70faxy50p1gfw46z.mdb.yandexcloud.net']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 

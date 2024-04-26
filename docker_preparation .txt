@@ -53,3 +53,74 @@ yc compute instance create \
 5. Получить список Docker-образов в реестре
 
 yc container image list
+
+6. 
+
+https://betterstack.com/community/guides/scaling-python/dockerize-django/
+https://medium.com/django-unleashed/dockerizing-a-django-application-with-postgresql-using-docker-and-docker-compose-332fc62aff5b
+
+Привязка доменного имени к ВМ с веб-сервером
+
+https://yandex.cloud/ru/docs/dns/tutorials/bind-domain-vm
+
+yc vpc network create webserver-network
+id: enpmahvpiv0ltmghk7fk
+folder_id: b1g50cvp8531de2lh1st
+created_at: "2024-04-24T13:24:26Z"
+name: webserver-network
+default_security_group_id: enpo7j9v5gm8u4qt1l40
+
+yc vpc subnet create webserver-subnet-ru-central1-b \
+  --zone ru-central1-b \
+  --network-name webserver-network \
+  --range 192.168.1.0/24
+
+
+id: e2lnehp9kk56pic3rma4
+folder_id: b1g50cvp8531de2lh1st
+created_at: "2024-04-24T13:34:45Z"
+name: webserver-subnet-ru-central1-b
+network_id: enpmahvpiv0ltmghk7fk
+zone_id: ru-central1-b
+v4_cidr_blocks:
+  - 192.168.1.0/24
+
+yc vpc security-group create \
+  --name webserver-sg \
+  --rule "description=http,direction=ingress,port=80,protocol=tcp,v4-cidrs=[0.0.0.0/0]" \
+  --rule "description=https,direction=ingress,port=443,protocol=tcp,v4-cidrs=[0.0.0.0/0]" \
+  --rule "description=ssh,direction=ingress,port=22,protocol=tcp,v4-cidrs=[0.0.0.0/0]" \
+  --rule "description=any,direction=egress,port=any,protocol=any,v4-cidrs=[0.0.0.0/0]" \
+  --network-name webserver-network
+
+  direction: INGRESS
+    ports:
+      from_port: "443"
+      to_port: "443"
+    protocol_name: TCP
+    protocol_number: "6"
+    cidr_blocks:
+      v4_cidr_blocks:
+        - 0.0.0.0/0
+  - id: enpr0iltehfah13sqas2
+    description: ssh
+    direction: INGRESS
+    ports:
+      from_port: "22"
+      to_port: "22"
+    protocol_name: TCP
+    protocol_number: "6"
+    cidr_blocks:
+      v4_cidr_blocks:
+        - 0.0.0.0/0
+  - id: enpsvhapg2ar90io878j
+    description: any
+    direction: EGRESS
+    protocol_name: ANY
+    protocol_number: "-1"
+    cidr_blocks:
+      v4_cidr_blocks:
+        - 0.0.0.0/0
+
+
+
